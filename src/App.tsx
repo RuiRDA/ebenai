@@ -164,7 +164,7 @@ function App() {
         <nav className="flex justify-between items-center mb-16">
           <div className="flex items-center gap-4">
             <img 
-              src="/src/favicon_io/logo_eben_ai_1024x1024.png"
+              src= "https://github.com/RuiRDA/ebenai/blob/main/src/favicon_io/logo_eben_ai_1024x1024.png?raw=true"
               alt="Eben AI Solutions Logo"
               className="w-12 h-auto"
             />
@@ -487,7 +487,7 @@ function App() {
             {/* Left Side - Logo, Description, and Email */}
             <div className="flex items-start gap-2">
               <img
-                src="/src/favicon_io/logo_eben_ai_1024x1024.png"
+                src="https://github.com/RuiRDA/ebenai/blob/main/src/favicon_io/logo_eben_ai_1024x1024.png?raw=true"
                 alt="Eben AI Solutions Logo"
                 className="w-8 h-auto"
               />
