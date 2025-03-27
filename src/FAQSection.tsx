@@ -11,31 +11,31 @@ const FAQSection: React.FC = () => {
   const faqItems: FAQItem[] = [
     {
       question: 'Como a Eben AI pode ajudar o meu negócio?',
-      answer: 'Podemos economizar centenas de horas de trabalho manual para sua equipe, automatizando tarefas repetitivas e tediosas, como prospecção outbound, atendimento ao cliente e criação de conteúdo. Ao implementar essas soluções, não apenas aumentamos a eficiência, mas também liberamos sua equipe para se concentrar em atividades mais estratégicas e criativas, gerando resultados ainda mais impactantes para o seu negócio.',
+      answer: 'Podemos economizar centenas de horas de trabalho manual para os seus funcionários, automatizando tarefas repetitivas e entediantes, como prospecção outbound, atendimento ao cliente, agendamentos, criação de conteúdo, entre outros. Ao implementar estas soluções, não apenas aumentamos a eficiência, mas também fazemos com que a sua equipa tenha mais tempo disponível para se concentrar em atividades mais estratégicas e criativas, gerando resultados ainda mais impactantes para o seu negócio.',
     },
     {
-      question: 'Quanto tempo leva para criar meu projeto?',
-      answer: 'Normalmente, nossas soluções são totalmente implementadas em até 7 dias, englobando todo o processo de desenvolvimento e integração. Com uma abordagem ágil e eficiente, garantimos que sua equipe possa começar a se beneficiar das melhorias rapidamente, sem comprometer a qualidade ou a precisão das entregas.',
+      question: 'Quanto tempo demora a criar o meu projeto?',
+      answer: 'Normalmente, as nossas soluções são totalmente implementadas entre 1 a 2 semanas, englobando todo o processo de desenvolvimento e integração. Com uma abordagem ágil e eficiente, garantimos que a sua equipa possa começar a beneficiar dos nossos serviços rapidamente, sem comprometer a qualidade ou a precisão das entregas.',
     },
     {
-      question: 'Qual a minha garantia?',
-      answer: 'Oferecemos 30 dias de garantia após a implementação da sua solução de IA, com reembolso total caso você não esteja completamente satisfeito com os resultados obtidos. Queremos garantir que sua experiência seja positiva e que os benefícios da nossa solução atendam plenamente às suas expectativas.',
+      question: 'Qual é a minha garantia?',
+      answer: 'Oferecemos 30 dias de garantia após a implementação da sua solução de IA, com reembolso total caso não fique totalmente satisfeito com os resultados obtidos. Queremos garantir que a sua experiência seja positiva e que os benefícios da nossa solução atendam plenamente às suas necessidades.',
     },
     {
-      question: 'Como vocês criam suas Soluções?',
-      answer: 'Nós passamos pelo processo de planejamento e escopo do projeto com nosso time de desenvolvedores profissionais e levamos o projeto para plataformas de integração de sistemas & Al, como make.com, n8n, flowise.',
+      question: 'Como é que as Soluções de IA são criadas?',
+      answer: 'Nós passamos pelo processo de planeamento e arquitetura do projeto com a nossa equipa e levamos o projeto para plataformas de integração de sistemas e IA, como o make.com, n8n, flowise, entre outros.',
     },
     {
-      question: 'Como nos comunicamos?',
-      answer: 'Para a maioria das empresas, nossa comunicação será feita diretamente pelo WhatsApp. Além disso, oferecemos suporte contínuo para acompanhar atualizações, resolver possíveis gargalos e garantir que o progresso esteja sempre em linha com os objetivos estabelecidos',
+      question: 'Como será a nossa comunicação?',
+      answer: 'Para a maioria das empresas, a nossa comunicação será feita diretamente pelo WhatsApp. Além disso, durante o desenvolvimento do projeto e fase de testes, oferecemos suporte contínuo para acompanhar atualizações, resolver possíveis erros de sistema e garantir que o progresso esteja sempre alinhado com os objetivos estabelecidos.',
     },
     {
       question: 'E se algo der errado com a automação?',
-      answer: 'Seremos notificados imediatamente sempre que ocorrer algum problema no sistema e resolveremos rapidamente, garantindo que a operação continue funcionando sem interrupções.',
+      answer: 'Seremos notificados imediatamente sempre que ocorrer algum problema no sistema e resolveremos rapidamente, garantindo que a operação continue a funcionar sem interrupções.',
     },
     {
       question: 'Preciso de conhecimentos técnicos para usar os sistemas automatizados?',
-      answer: 'Nós temos um processo de entrega transparente que instrui o seu time a utilizar os sistemas que entregamos, sem precisar saber programar ou investir dezenas de horas para aprender novas ferramentas.',
+      answer: 'Nós temos um processo de entrega simples e transparente que instrui a sua equipa a utilizar os sistemas que entregamos, sem precisar de saber programar ou investir dezenas de horas para aprender novas ferramentas.',
     },
   ];
 
