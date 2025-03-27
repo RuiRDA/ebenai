@@ -30,7 +30,7 @@ const FAQSection: React.FC = () => {
       answer: 'Para a maioria das empresas, a nossa comunicação será feita diretamente pelo WhatsApp. Além disso, durante o desenvolvimento do projeto e fase de testes, oferecemos suporte contínuo para acompanhar atualizações, resolver possíveis erros de sistema e garantir que o progresso esteja sempre alinhado com os objetivos estabelecidos.',
     },
     {
-      question: 'E se algo der errado com a automação?',
+      question: 'E se der algum erro na automação?',
       answer: 'Seremos notificados imediatamente sempre que ocorrer algum problema no sistema e resolveremos rapidamente, garantindo que a operação continue a funcionar sem interrupções.',
     },
     {
