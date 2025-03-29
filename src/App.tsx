@@ -250,7 +250,7 @@ function App() {
             </div>
             <div className="flex-1">
               <img 
-                src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
+                src="https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/src/ebenai-connections.webp"
                 alt="AI Technology"
                 className="rounded-xl shadow-2xl"
               />
