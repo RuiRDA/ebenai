@@ -88,7 +88,7 @@ function App() {
 
     try {
       try {
-        const response = await fetch('https://adversely-daring-guinea.ngrok-free.app/webhook-test/form', {
+        const response = await fetch('https://n8n.ebenaisolutions.pt/webhook/form', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
