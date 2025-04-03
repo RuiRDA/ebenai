@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import { Notebook as Robot, Sparkles, Code, ChevronRight, MessageSquare, Cpu, LineChart, Phone, Info, AlertCircle } from 'lucide-react';
 import PrivacyPolicy from './PrivacyPolicy';
 import FAQSection from './FAQSection';
@@ -14,8 +15,9 @@ interface FormErrors {
   [key: string]: string;
 }
 
-function App() {
-  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+// Main application component containing most of the page content
+function MainPage() {
+  // State remains here as it's specific to the main page form/functionality
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
@@ -26,30 +28,9 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  if (showPrivacyPolicy) {
-    return (
-      <>
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <button
-              onClick={() => setShowPrivacyPolicy(false)}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
-            >
-              <ChevronRight className="w-5 h-5 rotate-180" />
-              Voltar
-            </button>
-          </div>
-        </nav>
-        <div className="pt-16">
-          <PrivacyPolicy />
-        </div>
-      </>
-    );
-  }
-
   const validateForm = (): boolean => {
     const errors: FormErrors = {};
-    
+
     if (!formData.fullName.trim()) {
       errors.fullName = 'Nome completo é obrigatório';
     }
@@ -66,8 +47,6 @@ function App() {
       errors.whatsapp = 'Número WhatsApp português inválido';
     }
 
-
-
     if (!formData.gdprConsent) {
       errors.gdprConsent = 'Deve aceitar a política de privacidade';
     }
@@ -78,7 +57,7 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -151,7 +130,7 @@ function App() {
   return (
     <div id="home" className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Background Texture */}
-      <div 
+      <div
         className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage: 'radial-gradient(#00000010 1px, transparent 1px)',
@@ -162,14 +141,14 @@ function App() {
       {/* Hero Section */}
       <header className="container mx-auto px-4 py-10 relative">
         <nav className="flex justify-between items-center mb-16">
-          <div className="flex items-center gap-4">
-            <img 
+          <Link to="/" className="flex items-center gap-4"> {/* Link to home */}
+            <img
               src= "https://github.com/RuiRDA/ebenai/blob/main/src/favicon_io/logo_eben_ai_1024x1024.png?raw=true"
               alt="Eben AI Solutions Logo"
               className="w-12 h-auto"
             />
             <span className="text-2xl font-bold text-gray-900">Eben AI Solutions</span>
-          </div>
+          </Link>
           <div className="hidden md:flex gap-8">
             <a href="#services" className="text-gray-600 hover:text-primary transition">Serviços</a>
             <a href="#about" className="text-gray-600 hover:text-primary transition">Sobre</a>
@@ -213,8 +192,8 @@ function App() {
                 description: "Criamos sistemas de agendamento para que os seus clientes possam fazer marcações em qualquer momento do dia, sem intervenção de funcionários."
               }
             ].map((service, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white p-8 rounded-xl hover:transform hover:-translate-y-2 transition duration-300 shadow-lg relative z-10"
               >
                 {service.icon}
@@ -249,7 +228,7 @@ function App() {
               </div>
             </div>
             <div className="flex-1">
-              <img 
+              <img
                 src="https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/src/ebenai-connections.webp"
                 alt="AI Technology"
                 className="rounded-xl shadow-2xl"
@@ -266,7 +245,7 @@ function App() {
           <p className="text-xl mb-8 text-gray-600">
             A automação é complicada - mas nós podemos implementá-la por si! <br />Descubra como a IA pode transformar o seu negócio em 3 etapas simples
           </p>
-     
+
           <div className="flex flex-col md:flex-row justify-center gap-8">
             {/* Step 1 */}
             <div className="w-full md:w-1/3 bg-white p-8 rounded-xl shadow-lg">
@@ -305,14 +284,14 @@ function App() {
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-gray-50 relative">
         {/* Dot pattern background */}
-        <div 
-          className="absolute inset-0 opacity-10" 
+        <div
+          className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
             backgroundSize: '20px 20px'
           }}
         ></div>
-        
+
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1200px] relative z-10">
           <h2 className="text-4xl font-bold mb-8 text-center text-gray-800 text-5xl">Vamos Conversar?</h2>
           <p className="mb-12 max-w-2xl mx-auto text-center text-gray-700 text-lg leading-relaxed">
@@ -430,14 +409,14 @@ function App() {
                     className="mt-1"
                   />
                   <span className="text-sm">
-                    Concordo com o processamento dos meus dados pessoais de acordo com a 
-                    <button
-                      type="button"
-                      onClick={() => setShowPrivacyPolicy(true)}
+                    Concordo com o processamento dos meus dados pessoais de acordo com a
+                    {/* Replace button with Link */}
+                    <Link
+                      to="/privacy-policy"
                       className="text-primary hover:text-primary-dark ml-1"
                     >
                       Política de Privacidade
-                    </button>
+                    </Link>
                     <span className="text-red-500 ml-1">*</span>
                   </span>
                 </label>
@@ -478,7 +457,7 @@ function App() {
         </div>
       </section>
 
-     <FAQSection></FAQSection> 
+     <FAQSection></FAQSection>
 
       {/* Footer */}
       <footer className="bg-gray-100 py-8">
@@ -505,50 +484,43 @@ function App() {
             </div>
 
             {/* Center - Navigation Links */}
-    
+
             <div className="hidden md:flex justify-center gap-8 text-gray-600 pl-4 md:pl-8">
               <a href="#home" className="hover:text-primary transition">Início</a>
               <a href="#services" className="text-gray-600 hover:text-primary transition">Serviços</a>
               <a href="#about" className="text-gray-600 hover:text-primary transition">Sobre</a>
               <a href="#contact" className="text-gray-600 hover:text-primary transition">Contato</a>
-  
-              <button
-                      type="button"
-                      onClick={() => setShowPrivacyPolicy(true)}
-                      className="text-primary hover:text-primary-dark ml-1"
-                    >
-                      Termos
-                    </button>
+              <a href="/privacy-policy" className="text-gray-600 hover:text-primary transition">Termos</a>
             </div>
 
             {/* Right Side - Social Media Icons */}
             <div className="flex justify-end gap-4">
 
-          {/*   
-           <a href="#" className="text-gray-600 hover:text-primary transition">
-            
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                  <rect x="2" y="9" width="4" height="12"/>
-                  <circle cx="4" cy="4" r="2"/>
-                </svg>
-              </a>
-              */}    
+           {/*
+            <a href="#" className="text-gray-600 hover:text-primary transition">
+
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                   <rect x="2" y="9" width="4" height="12"/>
+                   <circle cx="4" cy="4" r="2"/>
+                 </svg>
+               </a>
+               */}
               <a href="#" className="text-gray-600 hover:text-primary transition">
-                    {/* Instagram Icon  */}
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                </svg>
-              </a>
+                     {/* Instagram Icon  */}
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                 </svg>
+               </a>
               <a href="#" className="text-gray-600 hover:text-primary transition">
-                    {/* YouTube Icon  */}
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
-                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
-                </svg>
-              </a>
+                     {/* YouTube Icon  */}
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                   <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                 </svg>
+               </a>
 
             </div>
           </div>
@@ -559,6 +531,16 @@ function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+// App component now handles routing
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+    </Routes>
   );
 }
 
