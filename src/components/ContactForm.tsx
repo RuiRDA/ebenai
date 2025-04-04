@@ -6,6 +6,7 @@ interface FormData {
   fullName: string;
   email: string;
   whatsapp: string;
+  countryCode: string;
   gdprConsent: boolean;
 }
 
@@ -18,6 +19,7 @@ const ContactForm: React.FC = () => {
     fullName: '',
     email: '',
     whatsapp: '',
+    countryCode: '351', // Default to Portugal
     gdprConsent: false,
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -39,8 +41,10 @@ const ContactForm: React.FC = () => {
 
     if (!formData.whatsapp.trim()) {
       errors.whatsapp = 'WhatsApp é obrigatório';
-    } else if (!/^\+351\s?9\d{2}\s?\d{3}\s?\d{3}$/.test(formData.whatsapp)) {
-      errors.whatsapp = 'Número WhatsApp português inválido';
+    } else if (formData.countryCode === '351' && !/^9\d{2}\s?\d{3}\s?\d{3}$/.test(formData.whatsapp)) {
+      errors.whatsapp = 'Número português inválido (formato: 9XX XXX XXX)';
+    } else if (formData.countryCode === '55' && !/^\d{2}\s?(9?\d{4}\s?\d{4})$/.test(formData.whatsapp)) {
+      errors.whatsapp = 'Número brasileiro inválido (formato: XX 9XXXX XXXX)';
     }
 
     if (!formData.gdprConsent) {
@@ -79,6 +83,7 @@ const ContactForm: React.FC = () => {
         fullName: '',
         email: '',
         whatsapp: '',
+        countryCode: '351', // Reset to default
         gdprConsent: false
       });
       setFormErrors({}); // Clear errors on success
@@ -101,27 +106,38 @@ const ContactForm: React.FC = () => {
 
   const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '');
-    if (!value.startsWith('351') && value.length > 0) {
-      value = '351' + value;
+    
+    // Set max length based on country code
+    const maxLength = formData.countryCode === '55' ? 11 : 9;
+    if (value.length > maxLength) {
+      value = value.slice(0, maxLength);
     }
-    if (value.length > 12) {
-      value = value.slice(0, 12);
-    }
-    // Format: +351 9XX XXX XXX
-    if (value.length > 3) {
-      value = '+' + value.replace(/(\d{3})(\d{3})?(\d{3})?(\d{3})?/, function(_, p1, p2, p3, p4) {
-        const parts = [p1];
+    
+    // Format phone number with spaces
+    if (formData.countryCode === '55') {
+      // Brazil format: XX 9XXXX XXXX or XX XXXX XXXX
+      value = value.replace(/(\d{2})?(\d{4,5})?(\d{4})?/, function(_, p1, p2, p3) {
+        const parts = [];
+        if (p1) parts.push(p1);
         if (p2) parts.push(p2);
         if (p3) parts.push(p3);
-        if (p4) parts.push(p4);
+        return parts.join(' ');
+      });
+    } else {
+      // Portugal format: 9XX XXX XXX
+      value = value.replace(/(\d{3})?(\d{3})?(\d{3})?/, function(_, p1, p2, p3) {
+        const parts = [];
+        if (p1) parts.push(p1);
+        if (p2) parts.push(p2);
+        if (p3) parts.push(p3);
         return parts.join(' ');
       });
     }
+    
     setFormData(prev => ({ ...prev, whatsapp: value }));
-     // Clear error when user starts typing
-     if (formErrors.whatsapp) {
-        setFormErrors(prev => ({ ...prev, whatsapp: '' }));
-      }
+    if (formErrors.whatsapp) {
+      setFormErrors(prev => ({ ...prev, whatsapp: '' }));
+    }
   };
 
   return (
@@ -204,33 +220,42 @@ const ContactForm: React.FC = () => {
             <div className="relative">
               <label className="block text-sm font-medium mb-2">
                 WhatsApp <span className="text-red-500">*</span>
-                <button
-                  type="button"
-                  className="ml-2 inline-flex items-center"
-                  title="Digite seu número WhatsApp português"
-                >
-                  <Info className="w-4 h-4" />
-                </button>
               </label>
-              <div className="relative">
-                <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="tel"
-                  name="whatsapp"
-                  value={formData.whatsapp}
-                  onChange={handleWhatsAppChange}
-                  className={`w-full pl-12 pr-4 py-3 rounded-lg border ${formErrors.whatsapp ? 'border-red-500' : 'border-gray-300'} bg-white focus:outline-none focus:ring-2 ${formErrors.whatsapp ? 'focus:ring-red-500' : 'focus:ring-primary'} transition-all`}
-                  placeholder="+351 912 345 678"
-                />
+              <div className="flex gap-2">
+                <select
+                  name="countryCode"
+                  value={formData.countryCode}
+                  onChange={(e) => {
+                    setFormData(prev => ({ ...prev, countryCode: e.target.value }));
+                    setFormErrors(prev => ({ ...prev, whatsapp: '' }));
+                  }}
+                  className="w-24 px-3 py-3 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="351">🇵🇹 +351</option>
+                  <option value="55">🇧🇷 +55</option>
+                </select>
+                <div className="relative flex-1">
+                  <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="tel"
+                    name="whatsapp"
+                    value={formData.whatsapp}
+                    onChange={handleWhatsAppChange}
+                    className={`w-full pl-12 pr-4 py-3 rounded-lg border ${formErrors.whatsapp ? 'border-red-500' : 'border-gray-300'} bg-white focus:outline-none focus:ring-2 ${formErrors.whatsapp ? 'focus:ring-red-500' : 'focus:ring-primary'} transition-all`}
+                    placeholder={formData.countryCode === '351' ? '912 345 678' : '11 98765 4321'}
+                  />
+                </div>
               </div>
               <p className="mt-1 text-xs text-gray-600">
-                Digite seu número WhatsApp português
+                {formData.countryCode === '351'
+                  ? 'Digite seu número WhatsApp português (9 dígitos)'
+                  : 'Digite seu número WhatsApp brasileiro (com DDD)'}
               </p>
               {formErrors.whatsapp && (
                 <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="w-4 h-4" />
                   {formErrors.whatsapp}
-              </p>
+                </p>
               )}
             </div>
 
