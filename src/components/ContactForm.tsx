@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Info, AlertCircle } from 'lucide-react';
+import { Info, AlertCircle } from 'lucide-react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 interface FormData {
   fullName: string;
@@ -39,8 +41,6 @@ const ContactForm: React.FC = () => {
 
     if (!formData.whatsapp.trim()) {
       errors.whatsapp = 'WhatsApp é obrigatório';
-    } else if (!/^\+351\s?9\d{2}\s?\d{3}\s?\d{3}$/.test(formData.whatsapp)) {
-      errors.whatsapp = 'Número WhatsApp português inválido';
     }
 
     if (!formData.gdprConsent) {
@@ -98,32 +98,6 @@ const ContactForm: React.FC = () => {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
-
-  const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (!value.startsWith('351') && value.length > 0) {
-      value = '351' + value;
-    }
-    if (value.length > 12) {
-      value = value.slice(0, 12);
-    }
-    // Format: +351 9XX XXX XXX
-    if (value.length > 3) {
-      value = '+' + value.replace(/(\d{3})(\d{3})?(\d{3})?(\d{3})?/, function(_, p1, p2, p3, p4) {
-        const parts = [p1];
-        if (p2) parts.push(p2);
-        if (p3) parts.push(p3);
-        if (p4) parts.push(p4);
-        return parts.join(' ');
-      });
-    }
-    setFormData(prev => ({ ...prev, whatsapp: value }));
-     // Clear error when user starts typing
-     if (formErrors.whatsapp) {
-        setFormErrors(prev => ({ ...prev, whatsapp: '' }));
-      }
-  };
-
   return (
     <section id="contact" className="py-20 bg-gray-50 relative">
       {/* Dot pattern background */}
@@ -201,39 +175,34 @@ const ContactForm: React.FC = () => {
             </div>
 
             {/* WhatsApp */}
-            <div className="relative">
+            <div className="relative w-full">
               <label className="block text-sm font-medium mb-2">
                 WhatsApp <span className="text-red-500">*</span>
                 <button
                   type="button"
                   className="ml-2 inline-flex items-center"
-                  title="Digite seu número WhatsApp português"
+                  title="Digite seu número WhatsApp com código do país"
                 >
                   <Info className="w-4 h-4" />
                 </button>
               </label>
-              <div className="relative">
-                <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="tel"
-                  name="whatsapp"
+              <div className="react-tel-input ">
+                <PhoneInput
+                  country={'pt'}
                   value={formData.whatsapp}
-                  onChange={handleWhatsAppChange}
-                  className={`w-full pl-12 pr-4 py-3 rounded-lg border ${formErrors.whatsapp ? 'border-red-500' : 'border-gray-300'} bg-white focus:outline-none focus:ring-2 ${formErrors.whatsapp ? 'focus:ring-red-500' : 'focus:ring-primary'} transition-all`}
-                  placeholder="+351 912 345 678"
+                  onChange={(phone) => setFormData(prev => ({ ...prev, whatsapp: phone }))}
+                  inputClass={`!w-full !h-[50px]  px-4 py-3 rounded-lg border ${formErrors.whatsapp ? 'border-red-500' : 'border-gray-300'} bg-white focus:outline-none focus:ring-2 ${formErrors.whatsapp ? 'focus:ring-red-500' : 'focus:ring-primary'} transition-all`}
+                  containerClass="w-full"
+                  buttonClass="!bg-white !border-gray-300 !rounded-l-lg"
                 />
               </div>
-              <p className="mt-1 text-xs text-gray-600">
-                Digite seu número WhatsApp português
-              </p>
               {formErrors.whatsapp && (
                 <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
                   <AlertCircle className="w-4 h-4" />
                   {formErrors.whatsapp}
-              </p>
+                </p>
               )}
             </div>
-
             {/* RGPD Consent */}
             <div className="md:col-span-2">
               <label className="flex items-start gap-2 cursor-pointer">
