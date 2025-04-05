@@ -13,7 +13,14 @@ const Hero: React.FC = () => {
           negócio com um "funcionário" digital que nunca dorme, não tira férias
           e não reclama!
         </p>
-        <button className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 mx-auto transition">
+        <button
+          className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 mx-auto transition"
+          onClick={() => {
+            document.getElementById('contact')?.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }}
+        >
           Comece Agora
           <ChevronRight className="w-5 h-5" />
         </button>

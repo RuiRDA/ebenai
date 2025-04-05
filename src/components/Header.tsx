@@ -14,9 +14,36 @@ const Header: React.FC = () => {
           <span className="text-2xl font-bold text-gray-900">Eben AI Solutions</span>
         </Link>
         <div className="hidden md:flex gap-8">
-          <a href="#services" className="text-gray-600 hover:text-primary transition">Serviços</a>
-          <a href="#about" className="text-gray-600 hover:text-primary transition">Sobre</a>
-          <a href="#contact" className="text-gray-600 hover:text-primary transition">Contato</a>
+          <a
+            href="#services"
+            className="text-gray-600 hover:text-primary transition"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            Serviços
+          </a>
+          <a
+            href="#about"
+            className="text-gray-600 hover:text-primary transition"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            Sobre
+          </a>
+          <a
+            href="#contact"
+            className="text-gray-600 hover:text-primary transition"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            Contato
+          </a>
         </div>
       </nav>
     </header>
