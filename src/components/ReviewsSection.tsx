@@ -12,43 +12,67 @@ interface Review {
 const dummyReviewsData: Review[] = [
   {
     id: 1,
-    name: 'John Doe',
-    nationality: '🇺🇸',
+    name: 'Keith',
+    nationality: '🇨🇦',
     rating: 5,
     maxRating: 5,
-    text: 'Amazing service and fantastic results! Highly recommend to anyone looking for top-notch AI solutions.',
+    text: 'Happy to highly recommend! Got exactly what I was asking for and more. Extremely clear communications and I\'m just very happy with this altogether. I will use again for sure!',
   },
   {
     id: 2,
-    name: 'Maria Silva',
-    nationality: '🇧🇷',
-    rating: 4,
+    name: 'Omar',
+    nationality: '🇲🇦',
+    rating: 5,
     maxRating: 5,
-    text: 'Very professional team and the project was delivered on time. The quality of work exceeded my expectations.',
+    text: 'Eben AI delivered high-quality work fast, and exceeded my expectations. Excellent communication and professionalism throughout. Highly recommended—thank you!"',
   },
   {
     id: 3,
-    name: 'Kenji Tanaka',
-    nationality: '🇯🇵',
+    name: 'Christophers',
+    nationality: '🇺🇸',
     rating: 5,
     maxRating: 5,
-    text: 'Eben AI truly understands the nuances of artificial intelligence. Their insights were invaluable to our project.',
+    text: 'We gave them an tough challenge and they went above and beyond to make the project work. We had to pull data from multiple websites to put them into a spreadsheet with 1000 of rows and it worked flawlessly! Will definitely hire for future projects. If you need any web scraping, these are your guys!',
   },
   {
     id: 4,
-    name: 'Fatima Al Fassi',
-    nationality: '🇦🇪',
-    rating: 4,
+    name: 'Rui C. Santos',
+    nationality: '🇵🇹',
+    rating: 5,
     maxRating: 5,
-    text: 'A great partner to work with. They are responsive, knowledgeable, and dedicated to client success.',
+    text: 'Recomendo fortemente para qualquer projeto que exija habilidades técnicas e forte colaboração.',
   },
   {
     id: 5,
-    name: 'Chloe Dubois',
-    nationality: '🇫🇷',
+    name: 'Ayoub Bofouchk',
+    nationality: '🇲🇦',
     rating: 5,
     maxRating: 5,
-    text: 'The solutions provided were innovative and perfectly tailored to our needs. Excellent communication throughout the process.',
+    text: 'Best quality of service and communication! Very professional and supportive, thanks for your time and efforts',
+  },
+  {
+    id: 6,
+    name: 'Rodrigo Damas',
+    nationality: '🇵🇹',
+    rating: 4.7,
+    maxRating: 5,
+    text: 'Excelente serviço! Sempre super rápido a responder e pronto a ajudar. Recomendo e muito!',
+  },
+  {
+    id: 7,
+    name: 'Dinis Assis',
+    nationality: '🇵🇹',
+    rating: 5,
+    maxRating: 5,
+    text: 'Muito bom, rápido e sempre disponível.',
+  },
+  {
+    id: 8,
+    name: 'Jim Haddad',
+    nationality: '🇩🇪',
+    rating: 5,
+    maxRating: 5,
+    text: 'Exceptional work. Took less time than expected to create a video production automation.',
   },
 ];
 
@@ -148,7 +172,7 @@ const ReviewsSection: React.FC = () => {
     >
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-10 md:mb-16">
-          What Our Clients Say
+          O que os nossos clientes dizem sobre a Eben AI Solutions
         </h2>
         <div 
           ref={reviewsContainerRef}
