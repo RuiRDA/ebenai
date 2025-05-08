@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
         </h1>
         <p className="text-xl mb-8 text-gray-600">
           Faça mais vendas no piloto automático e converta mais leads para o seu
-          negócio com um "funcionário" digital que nunca dorme, não tira férias
+          negócio com um super funcionário digital que nunca dorme, não tira férias
           e não reclama!
         </p>
         <button

@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import AboutSection from './components/AboutSection';
 import StepsSection from './components/StepsSection';
+import ReviewsSection from './components/ReviewsSection'; // Added import for ReviewsSection
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import FAQSection from './FAQSection'; // Keep existing import
@@ -31,6 +32,7 @@ function MainPage() {
         <ServicesSection />
         <AboutSection />
         <StepsSection />
+        <ReviewsSection /> {/* Added ReviewsSection component */}
         <ContactForm />
         <FAQSection />
       </main>
