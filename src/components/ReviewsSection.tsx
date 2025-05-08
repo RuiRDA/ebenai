@@ -18,14 +18,16 @@ const dummyReviewsData: Review[] = [
     maxRating: 5,
     text: 'Happy to highly recommend! Got exactly what I was asking for and more. Extremely clear communications and I\'m just very happy with this altogether. I will use again for sure!',
   },
+
   {
     id: 2,
-    name: 'Omar',
-    nationality: '🇲🇦',
+    name: 'Rui C. Santos',
+    nationality: '🇵🇹',
     rating: 5,
     maxRating: 5,
-    text: 'Eben AI delivered high-quality work fast, and exceeded my expectations. Excellent communication and professionalism throughout. Highly recommended—thank you!"',
+    text: 'Recomendo fortemente para qualquer projeto que exija habilidades técnicas e forte colaboração.',
   },
+
   {
     id: 3,
     name: 'Christophers',
@@ -34,14 +36,18 @@ const dummyReviewsData: Review[] = [
     maxRating: 5,
     text: 'We gave them an tough challenge and they went above and beyond to make the project work. We had to pull data from multiple websites to put them into a spreadsheet with 1000 of rows and it worked flawlessly! Will definitely hire for future projects. If you need any web scraping, these are your guys!',
   },
+
   {
     id: 4,
-    name: 'Rui C. Santos',
-    nationality: '🇵🇹',
+    name: 'Omar',
+    nationality: '🇲🇦',
     rating: 5,
     maxRating: 5,
-    text: 'Recomendo fortemente para qualquer projeto que exija habilidades técnicas e forte colaboração.',
+    text: 'Eben AI delivered high-quality work fast, and exceeded my expectations. Excellent communication and professionalism throughout. Highly recommended—thank you!"',
   },
+
+
+
   {
     id: 5,
     name: 'Ayoub Bofouchk',
@@ -166,7 +172,7 @@ const ReviewsSection: React.FC = () => {
   return (
     <section 
       id="reviews" 
-      className="py-12 md:py-20 bg-gradient-to-b from-blue-50 via-blue-100 to-transparent"
+      className="py-12 md:py-20 bg-gray-50"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
