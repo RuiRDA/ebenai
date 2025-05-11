@@ -76,12 +76,12 @@
         }
 
         .chat-assist-widget .chat-header-logo {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--chat-radius-sm);
-            object-fit: contain;
+            width: 56px;
+            height: 56px;
+            border-radius: var(--chat-radius-full);
+            object-fit: cover;
             background: white;
-            padding: 4px;
+            padding: 0;
         }
 
         .chat-assist-widget .chat-header-title {
