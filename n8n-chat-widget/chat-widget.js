@@ -168,7 +168,9 @@
         .chat-assist-widget .chat-body {
             display: none;
             flex-direction: column;
-            height: 100%;
+            flex: 1;
+            min-height: 0; /* Allow shrinking and proper flex calculation */
+            overflow: hidden; /* Ensure children are contained within chat-body's flex allocation */
         }
 
         .chat-assist-widget .chat-body.active {
@@ -400,6 +402,7 @@
             margin: 12px 0;
             align-self: flex-start;
             max-width: 85%;
+            margin-top: auto; /* Push suggested questions to the bottom */
         }
 
         .chat-assist-widget .suggested-question-btn {
