@@ -9,6 +9,36 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+
+
+<!-- Widget Configuration -->
+<script>
+  window.ChatWidgetConfig = {
+    webhook: {
+      url: 'INSERT_N8N_WEBHOOK',
+      route: 'general'
+    },
+    branding: {
+      logo: 'https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/src/favicon_io/logo_eben_ai_1024x1024.png',
+      name: 'Eben AI Solutions',
+      welcomeText: 'Get instant answers to your questions!',
+      responseTimeText: 'Click the button below to start chatting '
+    },
+    style: {
+      primaryColor: '#0284C7',
+      secondaryColor: '#0284C7',
+      position: 'right',
+      backgroundColor: '#ffffff',
+      fontColor: '#1f2937'
+    },
+    // Add suggested questions that users can click
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/gh/funtastic418/chat-widget@main/cha
+t-widget.js"></script>
+
+    
   </body>
 
 
