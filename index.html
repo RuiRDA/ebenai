@@ -1,8 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/src/favicon_io/logo_eben_ai_1024x1024.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/src/favicon_io/logo_eben_ai_1024x1024.png"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eben AI</title>
   </head>
@@ -10,40 +14,111 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
+    <!-- <script type="module" defer>
+      import Chatbot from "./n8n-chat-widget/embed.js";
+      Chatbot.init({
+        n8nChatUrl: "YOUR_N8N_CHAT_TRIGGER_NODE_WEBHOOK_URL",
+        theme: {
+          button: {
+            backgroundColor: "#0284C7",
+            right: 20,
+            bottom: 20,
+            size: 50,
+            iconColor: "#373434",
+            customIconSrc:
+              "https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/arts_and_logos/Novo%20logo%20eben%20AI.png",
+            customIconSize: 60,
+            customIconBorderRadius: 15,
+            autoWindowOpen: {
+              autoOpen: true,
+              openDelay: 2,
+            },
+            borderRadius: "circle",
+          },
+          tooltip: {
+            showTooltip: true,
+            tooltipMessage: "Hello 👋 customize & connect me to n8n",
+            tooltipBackgroundColor: "#0284C7",
+            tooltipTextColor: "#ffffff",
+            tooltipFontSize: 15,
+          },
+          chatWindow: {
+            borderRadiusStyle: "rounded",
+            avatarBorderRadius: 25,
+            messageBorderRadius: 6,
+            showTitle: true,
+            title: "N8N Chat UI Bot",
+            titleAvatarSrc:
+              "https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/arts_and_logos/Novo%20logo%20eben%20AI.png",
+            welcomeMessage: "Hello! This is the default welcome message",
+            errorMessage: "Please connect me to n8n first",
+            backgroundColor: "#ffffff",
+            height: 600,
+            width: 400,
+            fontSize: 16,
+            starterPrompts: ["Who are you?", "What do you do?"],
+            starterPromptFontSize: 15,
+            clearChatOnReload: false,
+            botMessage: {
+              backgroundColor: "#0284C7",
+              textColor: "#fafafa",
+              showAvatar: true,
+              avatarSrc:
+                "https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/arts_and_logos/Novo%20logo%20eben%20AI.png",
+            },
+            userMessage: {
+              backgroundColor: "#e3f5ff",
+              textColor: "#050505",
+              showAvatar: true,
+              avatarSrc:
+                "https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/arts_and_logos/Novo%20logo%20eben%20AI.png",
+            },
+            textInput: {
+              placeholder: "Escreva a sua pergunta",
+              backgroundColor: "#ffffff",
+              textColor: "#1e1e1f",
+              sendButtonColor: "#0284C7",
+              maxChars: 50,
+              maxCharsWarningMessage:
+                "You exceeded the characters limit. Please input less than 50 characters.",
+              autoFocus: false,
+              borderRadius: 6,
+              sendButtonBorderRadius: 50,
+            },
+          },
+        },
+      });
+    </script> -->
 
+    <!-- Widget Configuration -->
+    <script>
+      window.ChatWidgetConfig = {
+        webhook: {
+          url: "https://n8n.ebenaisolutions.pt/webhook/5e12ad2c-f21b-49de-91d7-f8b47594ca4b/chat",
+          route: "general",
+        },
+        branding: {
+          logo: "https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/arts_and_logos/Novo%20logo%20eben%20AI.png",
+          name: "Eben AI Solutions",
+          welcomeText: "Respostas instantâneas às suas perguntas!",
+          responseTimeText: "Clique no botão abaixo para começar a conversar",
+        },
+        style: {
+          primaryColor: "#0284C7",
+          secondaryColor: "#0284C7",
+          position: "right",
+          backgroundColor: "#ffffff",
+          fontColor: "#1f2937",
+        },
+        // Add suggested questions that users can click
+        suggestedQuestions: [
+          "What services do you offer?",
+          "How can I contact support?"
+        ],
+      };
+    </script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/funtastic418/chat-widget@main/chat-widget.js"></script> -->
 
-<!-- Widget Configuration -->
-<script>
-  window.ChatWidgetConfig = {
-    webhook: {
-      url: 'INSERT_N8N_WEBHOOK',
-      route: 'general'
-    },
-    branding: {
-      logo: 'https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/src/favicon_io/logo_eben_ai_1024x1024.png',
-      name: 'Eben AI Solutions',
-      welcomeText: 'Get instant answers to your questions!',
-      responseTimeText: 'Click the button below to start chatting '
-    },
-    style: {
-      primaryColor: '#0284C7',
-      secondaryColor: '#0284C7',
-      position: 'right',
-      backgroundColor: '#ffffff',
-      fontColor: '#1f2937'
-    },
-    // Add suggested questions that users can click
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/gh/funtastic418/chat-widget@main/cha
-t-widget.js"></script>
-
-    
+    <script src="n8n-chat-widget/chat-widget.js"></script>
   </body>
-
-
- 
-
-
-
 </html>

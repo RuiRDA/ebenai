@@ -17,7 +17,7 @@
             --chat-color-primary: var(--chat-widget-primary, #10b981);
             --chat-color-secondary: var(--chat-widget-secondary, #059669);
             --chat-color-tertiary: var(--chat-widget-tertiary, #047857);
-            --chat-color-light: var(--chat-widget-light,rgb(209, 234, 250));
+            --chat-color-light: var(--chat-widget-light, #d1fae5);
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
             --chat-color-text: var(--chat-widget-text, #1f2937);
             --chat-color-text-light: var(--chat-widget-text-light, #6b7280);
@@ -37,7 +37,7 @@
             position: fixed;
             bottom: 90px;
             z-index: 1000;
-            width: 400px;
+            width: 380px;
             height: 580px;
             background: var(--chat-color-surface);
             border-radius: var(--chat-radius-lg);
@@ -542,9 +542,8 @@
         branding: {
             logo: '',
             name: '',
-            welcomeText: '', // This will no longer be directly used for the main welcome screen
-            initialBotMessage: 'Hi there! How can I help you today?', // New default initial message
-            responseTimeText: '', // This will no longer be directly used
+            welcomeText: '',
+            responseTimeText: '',
             poweredBy: {
                 text: 'Powered by Eben AI',
                 link: 'https://ebenaisolutions.pt/'
@@ -572,15 +571,7 @@
                 primaryColor: window.ChatWidgetConfig.style?.primaryColor === '#854fff' ? '#10b981' : (window.ChatWidgetConfig.style?.primaryColor || '#10b981'),
                 secondaryColor: window.ChatWidgetConfig.style?.secondaryColor === '#6b3fd4' ? '#059669' : (window.ChatWidgetConfig.style?.secondaryColor || '#059669')
             },
-            suggestedQuestions: window.ChatWidgetConfig.suggestedQuestions || defaultSettings.suggestedQuestions,
-            branding: { // Ensure initialBotMessage can be overridden
-                ...defaultSettings.branding,
-                ...window.ChatWidgetConfig.branding,
-                // welcomeText and responseTimeText are less relevant now but keep merge logic
-                welcomeText: window.ChatWidgetConfig.branding?.welcomeText || defaultSettings.branding.welcomeText,
-                initialBotMessage: window.ChatWidgetConfig.branding?.initialBotMessage || defaultSettings.branding.initialBotMessage,
-                responseTimeText: window.ChatWidgetConfig.branding?.responseTimeText || defaultSettings.branding.responseTimeText,
-            }
+            suggestedQuestions: window.ChatWidgetConfig.suggestedQuestions || defaultSettings.suggestedQuestions
         } : defaultSettings;
 
     // Session tracking
@@ -609,7 +600,33 @@
             <span class="chat-header-title">${settings.branding.name}</span>
             <button class="chat-close-btn">×</button>
         </div>
-    `; // chat-welcome div removed
+        <div class="chat-welcome">
+            <h2 class="chat-welcome-title">${settings.branding.welcomeText}</h2>
+            <button class="chat-start-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Start chatting
+            </button>
+            <p class="chat-response-time">${settings.branding.responseTimeText}</p>
+        </div>
+        <div class="user-registration">
+            <h2 class="registration-title">Por favor, introduza os seus dados para começar a conversar</h2>
+            <form class="registration-form">
+                <div class="form-field">
+                    <label class="form-label" for="chat-user-name">Name</label>
+                    <input type="text" id="chat-user-name" class="form-input" placeholder="Your name" required>
+                    <div class="error-text" id="name-error"></div>
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="chat-user-email">Email</label>
+                    <input type="email" id="chat-user-email" class="form-input" placeholder="Your email address" required>
+                    <div class="error-text" id="email-error"></div>
+                </div>
+                <button type="submit" class="submit-registration">Continuar a conversar</button>
+            </form>
+        </div>
+    `;
 
     // Create chat interface without duplicating the header
     const chatInterfaceHTML = `
@@ -647,14 +664,20 @@
     document.body.appendChild(widgetRoot);
 
     // Get DOM elements
-    // const startChatButton = chatWindow.querySelector('.chat-start-btn'); // Removed
+    const startChatButton = chatWindow.querySelector('.chat-start-btn');
     const chatBody = chatWindow.querySelector('.chat-body');
     const messagesContainer = chatWindow.querySelector('.chat-messages');
     const messageTextarea = chatWindow.querySelector('.chat-textarea');
     const sendButton = chatWindow.querySelector('.chat-submit');
     
-    // const chatWelcome = chatWindow.querySelector('.chat-welcome'); // Removed
-    // Registration form elements removed
+    // Registration form elements
+    const registrationForm = chatWindow.querySelector('.registration-form');
+    const userRegistration = chatWindow.querySelector('.user-registration');
+    const chatWelcome = chatWindow.querySelector('.chat-welcome');
+    const nameInput = chatWindow.querySelector('#chat-user-name');
+    const emailInput = chatWindow.querySelector('#chat-user-email');
+    const nameError = chatWindow.querySelector('#name-error');
+    const emailError = chatWindow.querySelector('#email-error');
 
     // Helper function to generate unique session ID
     function createSessionId() {
@@ -684,66 +707,162 @@
         });
     }
 
-    // NEW FUNCTION to directly start chat
-    async function initiateChatSession() {
-        chatBody.classList.add('active'); // Show chat body
+    // Show registration form
+    function showRegistrationForm() {
+        chatWelcome.style.display = 'none';
+        userRegistration.classList.add('active');
+    }
+
+    // Validate email format
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Handle registration form submission
+    async function handleRegistration(event) {
+        event.preventDefault();
+        
+        // Reset error messages
+        nameError.textContent = '';
+        emailError.textContent = '';
+        nameInput.classList.remove('error');
+        emailInput.classList.remove('error');
+        
+        // Get values
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        
+        // Validate
+        let isValid = true;
+        
+        if (!name) {
+            nameError.textContent = 'Please enter your name';
+            nameInput.classList.add('error');
+            isValid = false;
+        }
+        
+        if (!email) {
+            emailError.textContent = 'Please enter your email';
+            emailInput.classList.add('error');
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            emailError.textContent = 'Please enter a valid email address';
+            emailInput.classList.add('error');
+            isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        // Initialize conversation with user data
         conversationId = createSessionId();
-
-        // Display initial local bot message
-        if (settings.branding.initialBotMessage) {
-            const botMessageElement = document.createElement('div');
-            botMessageElement.className = 'chat-bubble bot-bubble';
-            botMessageElement.innerHTML = linkifyText(settings.branding.initialBotMessage);
-            messagesContainer.appendChild(botMessageElement);
-        }
         
-        // Add sample questions if configured
-        if (settings.suggestedQuestions && Array.isArray(settings.suggestedQuestions) && settings.suggestedQuestions.length > 0) {
-            const suggestedQuestionsContainer = document.createElement('div');
-            suggestedQuestionsContainer.className = 'suggested-questions';
-            
-            settings.suggestedQuestions.forEach(question => {
-                const questionButton = document.createElement('button');
-                questionButton.className = 'suggested-question-btn';
-                questionButton.textContent = question;
-                questionButton.addEventListener('click', () => {
-                    submitMessage(question);
-                    if (suggestedQuestionsContainer.parentNode) {
-                        suggestedQuestionsContainer.parentNode.removeChild(suggestedQuestionsContainer);
-                    }
-                });
-                suggestedQuestionsContainer.appendChild(questionButton);
-            });
-            messagesContainer.appendChild(suggestedQuestionsContainer);
-        }
-        
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-        // Generic user info for session initialization
-        const genericEmail = "guest-" + conversationId + "@example.com";
-        const genericName = "Guest";
-
-        // Attempt to load/initialize session with the backend (does not block UI)
+        // First, load the session
         const sessionData = [{
             action: "loadPreviousSession",
             sessionId: conversationId,
             route: settings.webhook.route,
             metadata: {
-                userId: genericEmail,
-                userName: genericName
+                userId: email,
+                userName: name
             }
         }];
 
         try {
-            await fetch(settings.webhook.url, {
+            // Hide registration form, show chat interface
+            userRegistration.classList.remove('active');
+            chatBody.classList.add('active');
+            
+            // Show typing indicator
+            const typingIndicator = createTypingIndicator();
+            messagesContainer.appendChild(typingIndicator);
+            
+            // Load session
+            const sessionResponse = await fetch(settings.webhook.url, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(sessionData)
             });
-            // console.log('Session initialized with backend.');
+            
+            const sessionResponseData = await sessionResponse.json();
+            
+            // Send user info as first message
+            const userInfoMessage = `Name: ${name}\nEmail: ${email}`;
+            
+            const userInfoData = {
+                action: "sendMessage",
+                sessionId: conversationId,
+                route: settings.webhook.route,
+                chatInput: userInfoMessage,
+                metadata: {
+                    userId: email,
+                    userName: name,
+                    isUserInfo: true
+                }
+            };
+            
+            // Send user info
+            const userInfoResponse = await fetch(settings.webhook.url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userInfoData)
+            });
+            
+            const userInfoResponseData = await userInfoResponse.json();
+            
+            // Remove typing indicator
+            messagesContainer.removeChild(typingIndicator);
+            
+            // Display initial bot message with clickable links
+            const botMessage = document.createElement('div');
+            botMessage.className = 'chat-bubble bot-bubble';
+            const messageText = Array.isArray(userInfoResponseData) ? 
+                userInfoResponseData[0].output : userInfoResponseData.output;
+            botMessage.innerHTML = linkifyText(messageText);
+            messagesContainer.appendChild(botMessage);
+            
+            // Add sample questions if configured
+            if (settings.suggestedQuestions && Array.isArray(settings.suggestedQuestions) && settings.suggestedQuestions.length > 0) {
+                const suggestedQuestionsContainer = document.createElement('div');
+                suggestedQuestionsContainer.className = 'suggested-questions';
+                
+                settings.suggestedQuestions.forEach(question => {
+                    const questionButton = document.createElement('button');
+                    questionButton.className = 'suggested-question-btn';
+                    questionButton.textContent = question;
+                    questionButton.addEventListener('click', () => {
+                        submitMessage(question);
+                        // Remove the suggestions after clicking
+                        if (suggestedQuestionsContainer.parentNode) {
+                            suggestedQuestionsContainer.parentNode.removeChild(suggestedQuestionsContainer);
+                        }
+                    });
+                    suggestedQuestionsContainer.appendChild(questionButton);
+                });
+                
+                messagesContainer.appendChild(suggestedQuestionsContainer);
+            }
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } catch (error) {
-            console.error('Chat session initialization with webhook failed:', error);
-            // No intrusive error message here, as the chat is already locally functional
+            console.error('Registration error:', error);
+            
+            // Remove typing indicator if it exists
+            const indicator = messagesContainer.querySelector('.typing-indicator');
+            if (indicator) {
+                messagesContainer.removeChild(indicator);
+            }
+            
+            // Show error message
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'chat-bubble bot-bubble';
+            errorMessage.textContent = "Sorry, I couldn't connect to the server. Please try again later.";
+            messagesContainer.appendChild(errorMessage);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
     }
 
@@ -753,9 +872,9 @@
         
         isWaitingForResponse = true;
         
-        // Use generic user info
-        const genericEmail = "guest-" + conversationId + "@example.com";
-        const genericName = "Guest";
+        // Get user info if available
+        const email = nameInput ? nameInput.value.trim() : "";
+        const name = emailInput ? emailInput.value.trim() : "";
         
         const requestData = {
             action: "sendMessage",
@@ -763,8 +882,8 @@
             route: settings.webhook.route,
             chatInput: messageText,
             metadata: {
-                userId: genericEmail,
-                userName: genericName
+                userId: email,
+                userName: name
             }
         };
 
@@ -824,8 +943,8 @@
     }
 
     // Event listeners
-    // startChatButton.addEventListener('click', initiateChatSession); // Removed
-    // registrationForm.addEventListener('submit', handleRegistration); // Removed
+    startChatButton.addEventListener('click', showRegistrationForm);
+    registrationForm.addEventListener('submit', handleRegistration);
     
     sendButton.addEventListener('click', () => {
         const messageText = messageTextarea.value.trim();
@@ -851,12 +970,7 @@
     });
     
     launchButton.addEventListener('click', () => {
-        const becomingVisible = !chatWindow.classList.contains('visible');
         chatWindow.classList.toggle('visible');
-        
-        if (becomingVisible && !conversationId) { // If opening for the first time this "page load"
-            initiateChatSession();
-        }
     });
 
     // Close button functionality

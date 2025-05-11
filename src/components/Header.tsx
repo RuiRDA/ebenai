@@ -7,7 +7,7 @@ const Header: React.FC = () => {
       <nav className="flex justify-between items-center">
         <Link to="/" className="flex items-center gap-4"> {/* Link to home */}
           <img
-            src="https://github.com/RuiRDA/ebenai/blob/main/src/favicon_io/logo_eben_ai_1024x1024.png?raw=true"
+            src="https://raw.githubusercontent.com/RuiRDA/ebenai/refs/heads/main/arts_and_logos/Novo%20logo%20eben%20AI.png"
             alt="Eben AI Solutions Logo"
             className="w-12 h-auto"
           />
